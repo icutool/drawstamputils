@@ -21,15 +21,25 @@
     <div class="legal-disclaimer" 
          v-if="showSecurityWarning"
          :class="{ 'hidden': !showSecurityWarning }">
-      <div class="disclaimer-content">
+         <div class="disclaimer-content">
         <div class="warning-icon">⚠️</div>
         <div class="warning-text">
           <h3>{{ t('legal.securityWarning') }}</h3>
           <p><strong>{{ t('legal.securityNotice') }}</strong></p>
-          <p>
-            <span style="white-space: pre-line">{{ t('legal.securityItems') }}</span>
-          </p>
-          <button class="close-warning" @click="showSecurityWarning = false">×</button>
+          <div class="expandable-content">
+            <button class="expand-button" @click="isSecurityItemsExpanded = !isSecurityItemsExpanded">
+              {{ isSecurityItemsExpanded ? '收起详情' : '展开详情' }}
+              <span class="arrow" :class="{ 'expanded': isSecurityItemsExpanded }">▼</span>
+            </button>
+            <div class="security-items" :class="{ 'expanded': isSecurityItemsExpanded }">
+              <p>
+                <span style="white-space: pre-line">{{ t('legal.securityItems') }}</span>
+              </p>
+            </div>
+          </div>
+          <button class="close-warning" 
+                  @click="showSecurityWarning = false"
+                  :disabled="!isSecurityItemsExpanded">×</button>
         </div>
       </div>
     </div>
@@ -68,6 +78,10 @@
             <span class="slider round"></span>
           </label>
         </div>
+
+        <span class="button-icon">感谢开源项目
+          <a href="https://github.com/xxss0903/drawstamputils" target="_blank">GitHub</a>
+        </span>
       </div>
     </div>
     <!-- 右侧工具栏 -->
@@ -107,6 +121,7 @@ const MM_PER_PIXEL = 10 // 毫米换算像素
 
 const showLegalDialog = ref(false) // 是否显示法律提示弹窗
 const isDraggable = ref(false) // 是否开启拖动
+const isSecurityItemsExpanded = ref(false)
 
 
 // 绘制工具
@@ -743,5 +758,73 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+/* 修改展开详情按钮和内容的样式 */
+.expandable-content {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.expand-button {
+  background: none;
+  border: 1px solid #ddd;
+  color: #666;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  padding: 6px 16px;
+  border-radius: 4px;
+  margin: 0 auto;
+}
+
+.expand-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-color: #ccc;
+}
+
+.security-items {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease-out;
+  opacity: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.security-items.expanded {
+  max-height: 500px;
+  opacity: 1;
+  margin-top: 12px;
+  transition: all 0.3s ease-in;
+}
+
+.close-warning {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none;
+  background: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+}
+
+.close-warning:not(:disabled) {
+  opacity: 1;
+  visibility: visible;
+}
+
+.close-warning:hover {
+  color: #333;
 }
 </style>
