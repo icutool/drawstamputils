@@ -47,6 +47,7 @@ const switchLanguage = (lang: string) => {
   border-radius: 4px;
   background: white;
   cursor: pointer;
+  color: gray;
 }
 
 .language-switch button.active {
@@ -54,4 +55,5 @@ const switchLanguage = (lang: string) => {
   color: white;
   border-color: #0056b3;
 }
+
 </style>
