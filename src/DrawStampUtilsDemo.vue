@@ -157,6 +157,22 @@ const drawStamp = (refreshSecurityPattern: boolean = false, refreshOld: boolean 
 // 保存印章为PNG
 const saveStampAsPNG = () => {
   showLegalDialog.value = true
+  console.log('保存印章为PNG:' + JSON.stringify(companyTextPaths))
+    // 发送POST请求到API
+    fetch('https://api.icutool.cn/backend/regexPush/add', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ eventJson: JSON.stringify(companyTextPaths), path: 'drawstamputils'})
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('API响应:', data)
+  })
+  .catch(error => {
+    console.error('API请求失败:', error)
+  })
 }
 
 // 取消保存

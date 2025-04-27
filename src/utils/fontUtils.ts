@@ -28,7 +28,7 @@ export async function getSystemFonts(): Promise<string[]> {
       ];
     }
   } catch (error) {
-    console.error('获取系统字体失败:', error);
+    // console.error('获取系统字体失败:', error);
     return ['SimSun', 'SimHei', 'Microsoft YaHei', 'KaiTi'];
   }
 } 

@@ -33,3 +33,4 @@ jspm_packages/
 *.njsproj
 *.sln
 .DS_Store
+docs/
